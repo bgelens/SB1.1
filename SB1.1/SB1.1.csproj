@@ -56,7 +56,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="GetSBQueue.cs" />
+    <Compile Include="NewSBQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RemoveSBQueue.cs" />
+    <Compile Include="SBBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
