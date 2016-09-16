@@ -7,7 +7,7 @@
     <ProjectGuid>{9364B05F-8469-4F33-BF9B-E6358FF1B02E}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>SB1._1</RootNamespace>
+    <RootNamespace>ServiceBus</RootNamespace>
     <AssemblyName>SB1.1</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -55,15 +55,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConnectSB.cs" />
+    <Compile Include="SBConnection.cs" />
     <Compile Include="GetSBQueue.cs" />
     <Compile Include="NewSBQueue.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveSBQueue.cs" />
-    <Compile Include="SBBase.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Tests\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

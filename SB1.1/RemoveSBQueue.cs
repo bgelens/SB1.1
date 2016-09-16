@@ -14,7 +14,7 @@ namespace ServiceBus
         //ConfirmImpact = ConfirmImpact.High,
         //SupportsShouldProcess = true
         )]
-    public class RemoveSBQueue : SBBase
+    public class RemoveSBQueue : PSCmdlet
     {
         [Parameter(Mandatory = true,
             ValueFromPipeline = true)]
@@ -26,7 +26,7 @@ namespace ServiceBus
             {
 
             }*/
-            NMgr.DeleteQueue(Queue.Path);
+            SBConnection.Instance.NamespaceManager.DeleteQueue(Queue.Path);
         }
     }
 }

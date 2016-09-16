@@ -12,7 +12,7 @@ namespace ServiceBus
 {
     [Cmdlet(VerbsCommon.Get,"SBQueue",DefaultParameterSetName = "List")]
     [OutputType(typeof(QueueDescription))]
-    public class GetSBQueue : SBBase
+    public class GetSBQueue : PSCmdlet
     {
         [Parameter(Mandatory = true,
             ValueFromPipeline = true,
@@ -23,16 +23,22 @@ namespace ServiceBus
 
         protected override void ProcessRecord()
         {
-
-            if (ParameterSetName == "Named")
+            if (SBConnection.Instance.ConnectionString == null)
             {
-                WriteObject(NMgr.GetQueue(Name));
+                Console.WriteLine("Run Connect-SB first!");
             }
             else
             {
-                foreach (var queue in NMgr.GetQueues())
+                if (ParameterSetName == "Named")
                 {
-                    WriteObject(queue);
+                    WriteObject(SBConnection.Instance.NamespaceManager.GetQueue(Name));
+                }
+                else
+                {
+                    foreach (var queue in SBConnection.Instance.NamespaceManager.GetQueues())
+                    {
+                        WriteObject(queue);
+                    }
                 }
             }
         }

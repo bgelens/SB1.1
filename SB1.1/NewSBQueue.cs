@@ -11,14 +11,14 @@ using Microsoft.ServiceBus.Messaging;
 namespace ServiceBus
 {
     [Cmdlet(VerbsCommon.New,"SBQueue")]
-    public class NewSBQueue : SBBase
+    public class NewSBQueue : PSCmdlet
     {
         [Parameter(Mandatory = true)]
         public string Name { get; set; }
 
         protected override void ProcessRecord()
         {
-            NMgr.CreateQueue(Name);
+            SBConnection.Instance.NamespaceManager.CreateQueue(Name);
         }
     }
 }
