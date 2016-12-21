@@ -11,6 +11,7 @@ namespace ServiceBus
         public NamespaceManager NamespaceManager { get; set; }
         public string ConnectionString { get; set; }
         public MessagingFactory MessagingFactory { get; set; }
+        public QueueClient QueueClient { get; set; }
 
         private SBConnection() { }
 
