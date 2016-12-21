@@ -1,18 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management.Automation;
-using System.Management.Automation.Language;
-using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBus
 {
-    [Cmdlet(VerbsCommon.Remove,"SBQueue"//,
-        //ConfirmImpact = ConfirmImpact.High,
-        //SupportsShouldProcess = true
+    [Cmdlet(VerbsCommon.Remove,"SBQueue",
+        ConfirmImpact = ConfirmImpact.High,
+            SupportsShouldProcess = true
         )]
     public class RemoveSBQueue : PSCmdlet
     {
@@ -22,11 +16,23 @@ namespace ServiceBus
 
         protected override void ProcessRecord()
         {
-            /*if (ShouldProcess.ShouldProcess == true)
+            if (ShouldProcess(Queue.Path))
             {
-
-            }*/
-            SBConnection.Instance.NamespaceManager.DeleteQueue(Queue.Path);
+                try
+                {
+                    SBConnection.Instance.NamespaceManager.DeleteQueue(Queue.Path);
+                }
+                catch (Exception ex)
+                {
+                    ErrorRecord er = new ErrorRecord(
+                        ex,
+                        "Failed",
+                        ErrorCategory.ObjectNotFound,
+                        this
+                    );
+                    WriteError(er);
+                }
+            }
         }
     }
 }

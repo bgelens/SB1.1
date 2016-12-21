@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management.Automation;
 using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
@@ -19,28 +15,14 @@ namespace ServiceBus
         [ValidateNotNullOrEmpty()]
         public string ConnectionString { get; set; }
 
-        [Parameter(ParameterSetName = "Current")]
-        public SwitchParameter Current
-        {
-            get { return current; }
-            set { current = value; }
-        }
-        private bool current;
         protected override void ProcessRecord()
         {
             try
             {
-                if (current)
-                {
-                    WriteObject(SBConnection.Instance);
-                }
-                else
-                {
-                    SBConnection.Instance.NamespaceManager = NamespaceManager.CreateFromConnectionString(ConnectionString);
-                    SBConnection.Instance.ConnectionString = ConnectionString;
-                    SBConnection.Instance.MessagingFactory = MessagingFactory.CreateFromConnectionString(ConnectionString);
-                    WriteObject(SBConnection.Instance);
-                }
+                SBConnection.Instance.NamespaceManager = NamespaceManager.CreateFromConnectionString(ConnectionString);
+                SBConnection.Instance.ConnectionString = ConnectionString;
+                SBConnection.Instance.MessagingFactory = MessagingFactory.CreateFromConnectionString(ConnectionString);
+                WriteObject(SBConnection.Instance);
             }
             catch (Exception ex)
             {

@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management.Automation;
-using System.Management.Automation.Language;
-using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBus
@@ -24,11 +18,11 @@ namespace ServiceBus
             {
                 if (SBConnection.Instance.QueueClient == null)
                 {
-                    throw new Exception();
+                    throw new Exception("QueueClient is not set. Run Select-SBQueue first!");
                 }
-                    BrokeredMessage msg = new BrokeredMessage(InputObject);
-                    msg.Properties["messageType"] = InputObject.GetType().AssemblyQualifiedName;
-                    SBConnection.Instance.QueueClient.Send(msg);
+                BrokeredMessage msg = new BrokeredMessage(InputObject);
+                msg.Properties["messageType"] = InputObject.GetType().AssemblyQualifiedName;
+                SBConnection.Instance.QueueClient.Send(msg);
             }
             catch (Exception ex)
             {

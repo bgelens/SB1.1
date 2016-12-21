@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management.Automation;
-using System.Management.Automation.Language;
-using Microsoft.ServiceBus;
 using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBus
@@ -19,27 +13,53 @@ namespace ServiceBus
                 Position = 0,
                     ParameterSetName = "Named")]
         [ValidateNotNullOrEmpty()]
+        [Alias("Path")]
         public string Name { get; set; }
+
+        [Parameter(ParameterSetName = "Current")]
+        public SwitchParameter Current
+        {
+            get { return current; }
+            set { current = value; }
+        }
+        private bool current;
 
         protected override void ProcessRecord()
         {
-            if (SBConnection.Instance.ConnectionString == null)
+            try
             {
-                Console.WriteLine("Run Connect-SB first!");
-            }
-            else
-            {
-                if (ParameterSetName == "Named")
+                if (SBConnection.Instance.ConnectionString == null)
                 {
-                    WriteObject(SBConnection.Instance.NamespaceManager.GetQueue(Name));
+                    throw new Exception("Run Connect-SB first!");
+                }
+                if (current)
+                {
+                    WriteObject(SBConnection.Instance.QueueClient);
                 }
                 else
                 {
-                    foreach (var queue in SBConnection.Instance.NamespaceManager.GetQueues())
+                    if (ParameterSetName == "Named")
                     {
-                        WriteObject(queue);
+                        WriteObject(SBConnection.Instance.NamespaceManager.GetQueue(Name));
+                    }
+                    else
+                    {
+                        foreach (var queue in SBConnection.Instance.NamespaceManager.GetQueues())
+                        {
+                            WriteObject(queue);
+                        }
                     }
                 }
+            }
+            catch (Exception ex)
+            {
+                ErrorRecord er = new ErrorRecord(
+                    ex,
+                    "Failed",
+                    ErrorCategory.ObjectNotFound,
+                    this
+                );
+                WriteError(er);
             }
         }
     }

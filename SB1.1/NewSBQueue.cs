@@ -1,12 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Management.Automation;
-using System.Management.Automation.Language;
-using Microsoft.ServiceBus;
-using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBus
 {
@@ -18,7 +11,20 @@ namespace ServiceBus
 
         protected override void ProcessRecord()
         {
-            SBConnection.Instance.NamespaceManager.CreateQueue(Name);
+            try
+            {
+                SBConnection.Instance.NamespaceManager.CreateQueue(Name);
+            }
+            catch (Exception ex)
+            {
+                ErrorRecord er = new ErrorRecord(
+                    ex,
+                    "Failed",
+                    ErrorCategory.ObjectNotFound,
+                    this
+                );
+                WriteError(er);
+            }
         }
     }
 }
