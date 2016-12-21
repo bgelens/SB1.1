@@ -10,6 +10,7 @@ using Microsoft.ServiceBus.Messaging;
 
 namespace ServiceBus
 {
+    [OutputType(typeof(BrokeredMessage))]
     [Cmdlet(VerbsCommunications.Receive,"SBQueueMessage")]
     public class ReceiveSBQueueMessage : PSCmdlet
     {
@@ -54,7 +55,8 @@ namespace ServiceBus
                     msg.Complete();
                 }
                 var messageBody = generic.Invoke(msg, null);
-                WriteObject(messageBody);
+                msg.Properties["Body"] = messageBody;
+                WriteObject(msg);
             }
             catch (Exception ex)
             {
