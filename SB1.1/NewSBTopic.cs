@@ -3,8 +3,8 @@ using System.Management.Automation;
 
 namespace ServiceBus
 {
-    [Cmdlet(VerbsCommon.New,"SBQueue")]
-    public class NewSBQueue : PSCmdlet
+    [Cmdlet(VerbsCommon.New, "SBTopic")]
+    public class NewSBTopic : PSCmdlet
     {
         [Parameter(Mandatory = true)]
         [Alias("Path")]
@@ -14,7 +14,7 @@ namespace ServiceBus
         {
             try
             {
-                SBConnection.Instance.NamespaceManager.CreateQueue(Name);
+                SBConnection.Instance.NamespaceManager.CreateTopic(Name);
             }
             catch (Exception ex)
             {

@@ -1,20 +1,24 @@
 ﻿using System;
+using Microsoft.ServiceBus.Messaging;
 using System.Management.Automation;
 
 namespace ServiceBus
 {
-    [Cmdlet(VerbsCommon.New,"SBQueue")]
-    public class NewSBQueue : PSCmdlet
+    [Cmdlet(VerbsCommon.New, "SBTopicSubscription")]
+    public class NewSBTopicSubscription : PSCmdlet
     {
-        [Parameter(Mandatory = true)]
-        [Alias("Path")]
+        [Parameter()]
         public string Name { get; set; }
 
         protected override void ProcessRecord()
         {
             try
             {
-                SBConnection.Instance.NamespaceManager.CreateQueue(Name);
+                if (SBConnection.Instance.TopicClient == null)
+                {
+                    throw new Exception("TopicClient is not set. Run Select-SBTopic first!");
+                }
+                SBConnection.Instance.NamespaceManager.CreateSubscription(SBConnection.Instance.TopicClient.Path, Name);
             }
             catch (Exception ex)
             {

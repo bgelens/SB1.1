@@ -12,7 +12,8 @@ namespace ServiceBus
         public string ConnectionString { get; set; }
         public MessagingFactory MessagingFactory { get; set; }
         public QueueClient QueueClient { get; set; }
-
+        public TopicClient TopicClient { get; set; }
+        public SubscriptionClient SubscriptionClient { get; set; }
         private SBConnection() { }
 
         public static SBConnection Instance

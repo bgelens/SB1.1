@@ -22,6 +22,7 @@ namespace ServiceBus
                 SBConnection.Instance.NamespaceManager = NamespaceManager.CreateFromConnectionString(ConnectionString);
                 SBConnection.Instance.ConnectionString = ConnectionString;
                 SBConnection.Instance.MessagingFactory = MessagingFactory.CreateFromConnectionString(ConnectionString);
+                SessionState.PSVariable.Set("SBConnection", SBConnection.Instance);
                 WriteObject(SBConnection.Instance);
             }
             catch (Exception ex)
