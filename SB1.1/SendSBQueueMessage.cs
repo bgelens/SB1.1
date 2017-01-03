@@ -10,7 +10,7 @@ namespace ServiceBus
         [Parameter(Mandatory = true,
             Position = 0,
                 ValueFromPipeline = true)]
-        public PSObject InputObject;
+        public Object InputObject;
 
         protected override void ProcessRecord()
         {
