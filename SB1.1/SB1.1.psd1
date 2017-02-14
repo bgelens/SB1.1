@@ -12,7 +12,7 @@
 RootModule = 'SB1.1.dll'
 
 # Version number of this module.
-ModuleVersion = '0.0.0.2'
+ModuleVersion = '0.0.0.3'
 
 # ID used to uniquely identify this module
 GUID = 'e197af0d-0837-46d3-b447-9f7fe90baf27'

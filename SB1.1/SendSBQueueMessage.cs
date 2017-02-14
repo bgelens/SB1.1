@@ -25,6 +25,7 @@ namespace ServiceBus
                 msg.Properties["messageType"] = InputObject.GetType().AssemblyQualifiedName;
                 msg.Properties["senderId"] = WindowsIdentity.GetCurrent().Name;
                 SBConnection.Instance.QueueClient.Send(msg);
+                WriteObject(msg.MessageId);
             }
             catch (Exception ex)
             {
