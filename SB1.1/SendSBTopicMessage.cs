@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Management.Automation;
 using Microsoft.ServiceBus.Messaging;
+using System.Security.Principal;
 
 namespace ServiceBus
 {
@@ -22,6 +23,7 @@ namespace ServiceBus
                 }
                 BrokeredMessage msg = new BrokeredMessage(InputObject);
                 msg.Properties["messageType"] = InputObject.GetType().AssemblyQualifiedName;
+                msg.Properties["senderId"] = WindowsIdentity.GetCurrent().Name;
                 SBConnection.Instance.TopicClient.Send(msg);
             }
             catch (Exception ex)
